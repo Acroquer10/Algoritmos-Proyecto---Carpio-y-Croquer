@@ -116,3 +116,48 @@ def cargar_nacionalidades_lista():
             nacionalidades.append(pais)
     print("Lista de nacionalidades obtenida con éxito.")
     return nacionalidades
+
+def buscar_por_nacionalidad(nacionalidad):
+    """
+    Args: nacionalidad (str): La nacionalidad del autor a buscar.
+
+    Returns: lista de IDs que coinciden con la nacionalidad.
+    """
+    intentos = 3
+    while intentos > 0:
+        resp = requests.get(f"https://collectionapi.metmuseum.org/public/collection/v1/search?q={nacionalidad}")
+        
+        if resp.status_code == 200:
+            nacionalidad_json = resp.json()
+            ids_por_nacionalidad = nacionalidad_json.get("objectIDs", [])
+            return ids_por_nacionalidad
+        
+        else:
+            print(f"Error. Código de estado: {resp.status_code}. Intentos restantes: {intentos - 1}")
+            intentos -= 1
+            
+    print(f"Error al cargar las obras de {nacionalidad}")
+    return []
+
+def buscar_por_autor(autor):
+    """
+    Args: nacionalidad (str): La nacionalidad del autor a buscar.
+
+    Returns: lista de IDs que coinciden con la nacionalidad.
+    """
+    intentos = 3
+    while intentos > 0:
+        resp = requests.get(f"https://collectionapi.metmuseum.org/public/collection/v1/search?q={autor}")
+        
+        if resp.status_code == 200:
+            autor_json = resp.json()
+            ids_por_autor = autor_json.get("objectIDs", [])
+            return ids_por_autor
+        
+        else:
+            print(f"Error. Código de estado: {resp.status_code}. Intentos restantes: {intentos - 1}")
+            intentos -= 1
+            
+    print(f"Error al cargar las obras de {autor}")
+    return []
+
