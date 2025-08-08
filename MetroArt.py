@@ -88,7 +88,7 @@ class MetroArt:
         """
         nacionalidades = []
         try:
-            with open('PROYECTO/lista_nacionalidades.csv', 'r') as lista_nacionalidades:
+            with open('lista_nacionalidades.csv', 'r') as lista_nacionalidades:
 
                 for nacion in lista_nacionalidades:
                     pais=nacion.strip()
@@ -348,3 +348,4 @@ class MetroArt:
                     print(f"No se pudo mostrar la imagen: {e}")
         else:
             print("No se encontraron detalles para esta obra.")
+
