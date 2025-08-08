@@ -4,11 +4,7 @@ from Departamento import Departamento
 from Obra_Arte import ObraDeArte
 from Artista import Artista
 
-class MetroArt:   
-    def db_inicial(self):
-        resp= requests.get("https://collectionapi.metmuseum.org/public/collection/v1/objects")
-        return resp.json()
-    
+class MetroArt:
     def cargar_departamentos(self):
         """
         Obtiene la lista de departamentos del museo y los convierte en objetos.
@@ -84,18 +80,6 @@ class MetroArt:
                 
         print(f"No se pudieron obtener los detalles de la obra {id_obra}.")
         return None
-    
-    def paginacion_cargar_obras(self, id_departamento, limite=20):
-        lista_ids = self.cargar_ids_por_departamento(id_departamento)
-
-        ids_paginas = lista_ids[:limite]
-        
-        obras_encontradas = []    
-        for id_obra in ids_paginas:
-            obra = self.cargar_detalles_obra(id_obra)
-            obras_encontradas.append(obra)
-                
-        return obras_encontradas
 
     def cargar_nacionalidades_lista(self):
         """
@@ -104,7 +88,7 @@ class MetroArt:
         """
         nacionalidades = []
         try:
-            with open('PROYECTO\lista_nacionalidades.csv', 'r') as lista_nacionalidades:
+            with open('PROYECTO/lista_nacionalidades.csv', 'r') as lista_nacionalidades:
 
                 for nacion in lista_nacionalidades:
                     pais=nacion.strip()
@@ -194,6 +178,7 @@ class MetroArt:
                 break
             else:
                 print('Opción inválida. Intente nuevamente')
+                print()
 
     def validar_id(self, input_str, lista_ids):
         """
@@ -219,6 +204,9 @@ class MetroArt:
         return valor
     
     def mostrar_seguro(self, obra, metodo="resumen"):
+        """
+        Valida que un objeto obra tenga el método especificado y lo ejecuta.
+        """
         if obra and hasattr(obra, metodo):
             try:
                 obra.resumen()
@@ -312,6 +300,10 @@ class MetroArt:
                 break
 
     def busqueda_autor(self):
+        """
+        Busca las obras por autor utilizando la función buscar_por_autor.
+        Muestra un mensaje si no se encuentran obras.
+        """
         nombre_autor = input("Ingrese el nombre del autor: ").strip().capitalize()
         ids_autor = self.buscar_por_autor(nombre_autor)
 
@@ -341,6 +333,9 @@ class MetroArt:
                 break
 
     def mostrar_detalles_y_imagen(self):
+        """
+        Muestra los detalles y la imagen de una obra de arte.
+        """
         id_obra = input("Ingrese el ID de la obra: ").strip()
         obra = self.cargar_detalles_obra(id_obra)
         if obra:
